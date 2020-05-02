@@ -1,20 +1,15 @@
 import { combineReducers } from 'redux';
-import {
-  collectionReducer,
-  filterReducer,
-  errorReducer,
-} from './phonebook/phonebookReducers';
+import { collectionReducer, errorReducer } from './events/eventsReducers';
 
 // create store states inside phonebook store
 const collectionReducers = combineReducers({
   collection: collectionReducer,
-  filter: filterReducer,
   error: errorReducer,
 });
 
 // root reducer
 const rootReducer = combineReducers({
-  phonebook: collectionReducers,
+  events: collectionReducers,
 });
 
 export default rootReducer;
