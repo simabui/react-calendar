@@ -2,12 +2,14 @@
 /* eslint-disable no-restricted-globals */
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import Modal from '../Modal/ModalContainer';
 import './Calendar.scss';
+import PopTransition from '../../styles/pop.module.css';
 
 const modal = createRef();
 
@@ -106,9 +108,21 @@ export default class CalendarView extends Component {
           eventDragStop={this.handleDragEvent}
           editable={isDraggable}
         />
-        {isShown && (
-          <Modal date={dateEvent} onClose={this.handleClose} innerRef={modal} />
-        )}
+        <TransitionGroup>
+          {isShown && (
+            <CSSTransition
+              in={isShown}
+              timeout={200}
+              classNames={PopTransition}
+            >
+              <Modal
+                date={dateEvent}
+                onClose={this.handleClose}
+                innerRef={modal}
+              />
+            </CSSTransition>
+          )}
+        </TransitionGroup>
       </>
     );
   }
