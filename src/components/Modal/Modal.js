@@ -1,11 +1,9 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import './Modal.scss';
+import Form from './Form';
 
-export default class Modal extends Component {
+class Modal extends Component {
   state = {
     time: '00:00',
     date: '',
@@ -19,15 +17,35 @@ export default class Modal extends Component {
     date: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     setEvent: PropTypes.func.isRequired,
+    innerRef: PropTypes.shape({}).isRequired,
   };
 
   componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyPress);
     const { date } = this.props;
     this.setState({ date });
   }
 
+  componentDidUpdate(prevProps) {
+    const { date } = this.props;
+    if (prevProps.date !== date) {
+      this.setState({ date });
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyPress);
+  }
+
   handleChange = ({ target }) => {
     this.setState({ [target.id]: target.value });
+  };
+
+  handleKeyPress = e => {
+    if (e.code !== 'Escape') return;
+    // call parent function
+    const { onClose } = this.props;
+    onClose();
   };
 
   handleSubmit = e => {
@@ -49,59 +67,23 @@ export default class Modal extends Component {
   };
 
   render() {
-    const { time, date, title, notes, error } = this.state;
-    const { onClose } = this.props;
+    const { onClose, innerRef } = this.props;
+    const { error } = this.state;
     return (
-      <div className="form-modal">
+      <div className="form-modal" ref={innerRef}>
         <form onSubmit={this.handleSubmit}>
-          <div className="modal">
-            <TextField
-              id="title"
-              label="Event name"
-              required
-              onChange={this.handleChange}
-              value={title}
-              helperText={error}
-              error={title.length > 10 && true}
-            />
-            <TextField
-              id="date"
-              label="Event date"
-              type="date"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={this.handleChange}
-              value={date}
-            />
-            <TextField
-              id="time"
-              label="Event time"
-              type="time"
-              defaultValue={time}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={this.handleChange}
-            />
-            <TextField
-              id="notes"
-              label="Notes"
-              onChange={this.handleChange}
-              value={notes}
-            />
-            <div className="modal__buttons">
-              <Button color="secondary" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button color="primary" type="submit">
-                Save
-              </Button>
-            </div>
-            <HighlightOffIcon className="modal__close" onClick={onClose} />
-          </div>
+          <Form
+            state={this.state}
+            onClose={onClose}
+            onChange={this.handleChange}
+            error={error}
+          />
         </form>
       </div>
     );
   }
 }
+
+export default React.forwardRef((props, ref) => (
+  <Modal innerRef={ref} {...props} />
+));

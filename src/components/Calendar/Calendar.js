@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-restricted-globals */
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -7,40 +9,82 @@ import interactionPlugin from '@fullcalendar/interaction';
 import Modal from '../Modal/ModalContainer';
 import './Calendar.scss';
 
+const modal = createRef();
+
 export default class CalendarView extends Component {
   state = {
     isShown: false,
     isDraggable: true,
-    dateChange: '',
+    dateEvent: '',
   };
 
   static propTypes = {
     events: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
+  /*
+   Opening Modal on clicking date
+  */
+
   handleDay = e => {
-    console.log(e);
-    this.setState(state => {
-      return {
-        isShown: !state.isShown,
-        dateChange: e.dateStr,
-      };
+    this.setState({
+      isShown: true,
+      dateEvent: e.dateStr,
     });
+    const blockCoords = this.getCoords(e.dayEl);
+    this.setModalPosition(blockCoords, modal);
   };
 
-  handleModal = () => {
-    this.setState(state => {
-      return {
-        isShown: !state.isShown,
-      };
-    });
+  /*
+   Edit event on Click
+  */
+
+  handleEditEvent = arg => {
+    console.log(arg);
+  };
+
+  /*
+   Update event on dragging
+  */
+
+  handleDragEvent = arg => {
+    console.log(arg);
+  };
+
+  /*
+    Close modal
+  */
+
+  handleClose = () => {
+    this.setState({ isShown: false });
+  };
+
+  /*
+    Render Modal in center of block
+  */
+
+  setModalPosition = (coords, el) => {
+    el.current.style.left = `${coords.left}px`;
+    el.current.style.top = `${coords.top}px`;
+  };
+
+  /*
+    set coords of center
+  */
+  getCoords = elem => {
+    const box = elem.getBoundingClientRect();
+    return {
+      top: box.top + pageYOffset + elem.offsetHeight / 2,
+      left: box.left + pageXOffset - elem.offsetWidth / 2,
+    };
   };
 
   render() {
-    const { isDraggable, dateChange, isShown } = this.state;
+    const { isDraggable, dateEvent, isShown } = this.state;
     const { events } = this.props;
+
     return (
-      <div>
+      <>
         <FullCalendar
           weekNumberCalculation="ISO"
           defaultView="dayGridMonth"
@@ -58,10 +102,14 @@ export default class CalendarView extends Component {
             hour12: false,
           }}
           dateClick={this.handleDay}
+          eventClick={this.handleEditEvent}
+          eventDragStop={this.handleDragEvent}
           editable={isDraggable}
         />
-        {isShown && <Modal date={dateChange} onClose={this.handleModal} />}
-      </div>
+        {isShown && (
+          <Modal date={dateEvent} onClose={this.handleClose} innerRef={modal} />
+        )}
+      </>
     );
   }
 }
