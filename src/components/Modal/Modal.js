@@ -1,6 +1,7 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 import Form from './Form';
 
 class Modal extends Component {
@@ -62,7 +63,7 @@ class Modal extends Component {
     }
     this.setState({ error: '' });
     // save to redux
-    setEvent({ title, notes, start: eventTime, allDay });
+    setEvent({ title, notes, start: eventTime, allDay, id: uuidv4() });
     onClose();
   };
 

@@ -10,6 +10,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import Modal from '../Modal/ModalContainer';
 import './Calendar.scss';
 import PopTransition from '../../styles/pop.module.css';
+import { getter, headerOptions, timeFormat } from './CalendarHelpers';
 
 const modal = createRef();
 
@@ -50,7 +51,9 @@ export default class CalendarView extends Component {
   */
 
   handleDragEvent = arg => {
-    console.log(arg);
+    const test = getter(arg);
+    const { dragEvent } = this.props;
+    dragEvent(test);
   };
 
   /*
@@ -90,22 +93,13 @@ export default class CalendarView extends Component {
         <FullCalendar
           weekNumberCalculation="ISO"
           defaultView="dayGridMonth"
-          header={{
-            left: 'today,prev,next',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
-            prev: 'left-double-arrow',
-          }}
+          header={headerOptions}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           events={events}
-          eventTimeFormat={{
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          }}
+          eventTimeFormat={timeFormat}
           dateClick={this.handleDay}
           eventClick={this.handleEditEvent}
-          eventDragStop={this.handleDragEvent}
+          eventDrop={this.handleDragEvent}
           editable={isDraggable}
         />
         <TransitionGroup>
