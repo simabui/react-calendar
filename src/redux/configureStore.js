@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ReduxThunk from 'redux-thunk';
+import { persistStore } from 'redux-persist';
 import rootReducer from './combineReducers';
 
 // middleWare
@@ -13,4 +14,5 @@ function configureStore(reducers) {
   return createStore(reducers, composeWithDevTools(enhancer));
 }
 
-export default configureStore(rootReducer);
+export const store = configureStore(rootReducer);
+export const persistor = persistStore(store);
