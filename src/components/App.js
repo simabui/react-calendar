@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Calendar from './Calendar/CalendarOperations';
+import Calendar from './Calendar/CalendarContainer';
 
 export default class App extends Component {
   state = {};

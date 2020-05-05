@@ -35,3 +35,21 @@ export function errorReducer(state = null, action) {
       return state;
   }
 }
+
+const defaultData = {
+  date: '',
+  hours: '',
+  title: '',
+  notes: '',
+};
+
+export function eventToEditReducer(state = defaultData, action) {
+  switch (action.type) {
+    case TYPE.eventToEdit: {
+      return action.payload.event;
+    }
+
+    default:
+      return state;
+  }
+}

@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { collectionReducer, errorReducer } from './events/eventsReducers';
+import {
+  collectionReducer,
+  errorReducer,
+  eventToEditReducer,
+} from './events/eventsReducers';
 
 const eventsPersistConfig = {
   key: 'events',
@@ -13,6 +17,7 @@ const eventsPersistConfig = {
 const collectionReducers = combineReducers({
   collection: collectionReducer,
   error: errorReducer,
+  editedEvent: eventToEditReducer,
 });
 
 // root reducer

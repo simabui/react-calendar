@@ -15,53 +15,22 @@ class Modal extends Component {
   };
 
   static propTypes = {
-    date: PropTypes.string,
+    date: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     setEvent: PropTypes.func.isRequired,
     innerRef: PropTypes.shape({}).isRequired,
-    event: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-      hours: PropTypes.string.isRequired,
-      notes: PropTypes.string,
-    }).isRequired,
-  };
-
-  static defaultProps = {
-    date: '',
   };
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyPress);
-    const { date, event } = this.props;
-    if (date) {
-      // if choosed add event
-      this.setState({ date });
-    } else if (event) {
-      // if choosed edit event
-      this.setState({
-        title: event.title,
-        date: event.date,
-        time: event.hours,
-        notes: event.notes,
-      });
-    }
+    const { date } = this.props;
+    this.setState({ date });
   }
 
   componentDidUpdate(prevProps) {
-    const { date, event } = this.props;
+    const { date } = this.props;
     if (prevProps.date !== date) {
       this.setState({ date });
-    }
-
-    // update edit modal
-    if (prevProps.event !== event) {
-      this.setState({
-        title: event.title,
-        date: event.date,
-        time: event.hours,
-        notes: event.notes,
-      });
     }
   }
 

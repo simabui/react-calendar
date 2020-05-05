@@ -10,7 +10,12 @@ import interactionPlugin from '@fullcalendar/interaction';
 import Modal from '../Modal/ModalContainer';
 import './Calendar.scss';
 import PopTransition from '../../styles/pop.module.css';
-import { getter, headerOptions, timeFormat } from './CalendarHelpers';
+import {
+  getter,
+  headerOptions,
+  timeFormat,
+  getEventData,
+} from './CalendarHelpers';
 
 const modal = createRef();
 
@@ -23,6 +28,8 @@ export default class CalendarView extends Component {
 
   static propTypes = {
     events: PropTypes.arrayOf(PropTypes.object).isRequired,
+    dragEvent: PropTypes.func.isRequired,
+    getEvent: PropTypes.func.isRequired,
   };
 
   /*
@@ -41,9 +48,16 @@ export default class CalendarView extends Component {
   /*
    Edit event on Click
   */
-
-  handleEditEvent = arg => {
-    console.log(arg);
+  // FIXME: fix show time and dynamic change date
+  handleEditEvent = ({ event, el }) => {
+    const gettedEvent = getEventData(event);
+    // redux func
+    const { getEvent } = this.props;
+    getEvent(gettedEvent);
+    this.setState({ isShown: true });
+    // set modal position
+    const blockCoords = this.getCoords(el);
+    this.setModalPosition(blockCoords, modal);
   };
 
   /*
@@ -100,7 +114,8 @@ export default class CalendarView extends Component {
           dateClick={this.handleDay}
           eventClick={this.handleEditEvent}
           eventDrop={this.handleDragEvent}
-          editable={isDraggable}
+          eventStartEditable={isDraggable}
+          eventResizeStart={this.handleEditEvent}
         />
         <TransitionGroup>
           {isShown && (
@@ -117,6 +132,17 @@ export default class CalendarView extends Component {
             </CSSTransition>
           )}
         </TransitionGroup>
+        {/* <TransitionGroup>
+          {isEdit && (
+            <CSSTransition
+              in={isShown}
+              timeout={200}
+              classNames={PopTransition}
+            >
+              <Modal onClose={this.handleClose} innerRef={modal} />
+            </CSSTransition>
+          )}
+        </TransitionGroup> */}
       </>
     );
   }

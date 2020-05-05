@@ -55,3 +55,15 @@
 .fc-past {
   cursor: pointer;
 }
+
+.fc-event-container:hover {
+  .fc-day-grid-event {
+    background: #6daceb;
+  }
+  .fc-event {
+    border-color: #6daceb;
+  }
+  .fc-content:hover {
+    background: #4390de;
+  }
+}

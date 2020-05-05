@@ -4,9 +4,9 @@ export const TYPE = {
   setFail: 'COLLECTION_SET_FAIL',
   dragEvent: 'DRAG_EVENT',
   removeEvent: 'REMOVE_EVENT',
+  eventToEdit: 'GET_EVENT_TO_EDIT',
 };
 
-/* SET */
 export function setCollectionStart() {
   return {
     type: TYPE.setStart,
@@ -15,28 +15,31 @@ export function setCollectionStart() {
 export function setCollectionSuccess(event) {
   return {
     type: TYPE.setSuccess,
-    // update arr of objs
     payload: { event },
   };
 }
 export function setCollectionFail(err) {
   return {
     type: TYPE.setFail,
-    // update arr of objs
     payload: { err },
   };
 }
 export function dragEventSuccess(event) {
   return {
     type: TYPE.dragEvent,
-    // update arr of objs
     payload: { event },
   };
 }
 export function removeEventSuccess(event) {
   return {
     type: TYPE.removeEvent,
-    // update arr of objs
+    payload: { event },
+  };
+}
+
+export function getEventToEdit(event) {
+  return {
+    type: TYPE.eventToEdit,
     payload: { event },
   };
 }

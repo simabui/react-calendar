@@ -65,7 +65,7 @@ Form.propTypes = {
     error: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
-    notes: PropTypes.string,
+    notes: PropTypes.string.isRequired,
   }).isRequired,
 };
 
