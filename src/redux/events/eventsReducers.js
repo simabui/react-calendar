@@ -9,7 +9,8 @@ export function collectionReducer(state = [], action) {
     /*
       delete old event and put new updated date
     */
-    case TYPE.dragEvent: {
+    case TYPE.dragEvent:
+    case TYPE.editSuccess: {
       return [
         ...state.filter(event => event.id !== action.payload.event.id),
         action.payload.event,
@@ -27,7 +28,8 @@ export function collectionReducer(state = [], action) {
 
 export function errorReducer(state = null, action) {
   switch (action.type) {
-    case TYPE.setFail: {
+    case TYPE.setFail:
+    case TYPE.editFail: {
       return action.payload.err;
     }
 

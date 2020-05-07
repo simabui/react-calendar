@@ -1,5 +1,6 @@
 {
   "name": "react-test-calendar",
+  "homepage": "https://simabui.github.io/react-calendar",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

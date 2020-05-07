@@ -38,11 +38,16 @@ function formatTime(time) {
   return time < 10 ? `0${time}` : time;
 }
 
-export function getEventData({ start: time, title, extendedProps: { notes } }) {
+export function getEventData({
+  start: time,
+  title,
+  extendedProps: { notes },
+  id,
+}) {
   const month = formatMonth(time.getMonth());
   const day = formatDay(time.getDate());
   const hours = formatTime(time.getHours());
-  const minutes = formatTime(time.getHours());
+  const minutes = formatTime(time.getMinutes());
   let formattedNotes = notes;
 
   // if notes empty set default
@@ -55,5 +60,6 @@ export function getEventData({ start: time, title, extendedProps: { notes } }) {
     hours: `${hours}:${minutes}`,
     notes: formattedNotes,
     title,
+    id,
   };
 }

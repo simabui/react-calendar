@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { getEvents } from '../../redux/events/eventsSelectors';
 import {
   dragEventSuccess,
-  removeEventSuccess,
   getEventToEdit,
 } from '../../redux/events/eventsActions';
 import Calendar from './Calendar';
@@ -15,7 +14,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeEvent: event => dispatch(removeEventSuccess(event)),
     dragEvent: event => dispatch(dragEventSuccess(event)),
     getEvent: event => dispatch(getEventToEdit(event)),
   };

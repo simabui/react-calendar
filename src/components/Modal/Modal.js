@@ -11,6 +11,7 @@ class Modal extends Component {
     title: '',
     notes: '',
     error: '',
+    id: '',
     allDay: false,
   };
 
@@ -18,12 +19,15 @@ class Modal extends Component {
     date: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     setEvent: PropTypes.func.isRequired,
+    editEvent: PropTypes.func.isRequired,
+    deleteEvent: PropTypes.func.isRequired,
     innerRef: PropTypes.shape({}).isRequired,
     event: PropTypes.shape({
       title: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       hours: PropTypes.string.isRequired,
       notes: PropTypes.string,
+      id: PropTypes.string,
     }).isRequired,
   };
 
@@ -35,7 +39,7 @@ class Modal extends Component {
     window.addEventListener('keydown', this.handleKeyPress);
     const { date, event } = this.props;
     if (date) {
-      // if choosed add event
+      // if choosed add new event
       this.setState({ date });
     } else if (event) {
       // if choosed edit event
@@ -44,6 +48,7 @@ class Modal extends Component {
         date: event.date,
         time: event.hours,
         notes: event.notes,
+        id: event.id,
       });
     }
   }
@@ -61,6 +66,7 @@ class Modal extends Component {
         date: event.date,
         time: event.hours,
         notes: event.notes,
+        id: event.id,
       });
     }
   }
@@ -82,18 +88,30 @@ class Modal extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { title, notes, time, date, allDay } = this.state;
-    const { setEvent, onClose } = this.props;
+    const { title, notes, time, date, allDay, id } = this.state;
+    const { setEvent, editEvent, onClose } = this.props;
     // format start event
     const eventTime = `${date}T${time}:00`;
     // validation
-    if (title.length > 10) {
+    if (title.length > 30) {
       this.setState({ error: 'Title should not be longer than 30 chars' });
       return;
     }
     this.setState({ error: '' });
-    // save to redux
-    setEvent({ title, notes, start: eventTime, allDay, id: uuidv4() });
+    // redux action
+    if (!id) {
+      // create new event
+      setEvent({ title, notes, start: eventTime, allDay, id: uuidv4() });
+    } else {
+      // edit event
+      editEvent({ title, notes, start: eventTime, allDay, id });
+    }
+    onClose();
+  };
+
+  handleDelete = () => {
+    const { deleteEvent, onClose } = this.props;
+    deleteEvent(this.state);
     onClose();
   };
 
@@ -108,6 +126,7 @@ class Modal extends Component {
             onClose={onClose}
             onChange={this.handleChange}
             error={error}
+            onDelete={this.handleDelete}
           />
         </form>
       </div>

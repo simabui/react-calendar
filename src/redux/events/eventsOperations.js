@@ -1,6 +1,6 @@
 import * as actions from './eventsActions';
 
-const putData = data => dispatch => {
+export const putData = data => dispatch => {
   dispatch(actions.setCollectionStart());
 
   try {
@@ -9,4 +9,13 @@ const putData = data => dispatch => {
     dispatch(actions.setCollectionFail(err));
   }
 };
-export default putData;
+
+export const editEvent = event => dispatch => {
+  dispatch(actions.editEventStart());
+
+  try {
+    dispatch(actions.editEventSuccess(event));
+  } catch (err) {
+    dispatch(actions.editEventFail(err));
+  }
+};

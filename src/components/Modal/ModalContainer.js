@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import putData from '../../redux/events/eventsOperations';
+import { putData, editEvent } from '../../redux/events/eventsOperations';
+import { removeEvent } from '../../redux/events/eventsActions';
 import { getEventToEdit } from '../../redux/events/eventsSelectors';
 import Modal from './Modal';
 
@@ -12,7 +13,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    setEvent: user => dispatch(putData(user)),
+    setEvent: event => dispatch(putData(event)),
+    editEvent: event => dispatch(editEvent(event)),
+    deleteEvent: event => dispatch(removeEvent(event)),
   };
 };
 

@@ -2,14 +2,12 @@
 /* eslint-disable no-restricted-globals */
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import Modal from '../Modal/ModalContainer';
 import './Calendar.scss';
-import PopTransition from '../../styles/pop.module.css';
 import {
   getter,
   headerOptions,
@@ -22,6 +20,7 @@ const modal = createRef();
 export default class CalendarView extends Component {
   state = {
     isShown: false,
+    isEdit: false,
     isDraggable: true,
     dateEvent: '',
   };
@@ -39,6 +38,7 @@ export default class CalendarView extends Component {
   handleDay = e => {
     this.setState({
       isShown: true,
+      isEdit: false,
       dateEvent: e.dateStr,
     });
     const blockCoords = this.getCoords(e.dayEl);
@@ -48,14 +48,14 @@ export default class CalendarView extends Component {
   /*
    Edit event on Click
   */
-  // FIXME: fix show time and dynamic change date
+
   handleEditEvent = ({ event, el }) => {
     const gettedEvent = getEventData(event);
-    // redux func
     const { getEvent } = this.props;
+    // redux action
     getEvent(gettedEvent);
-    this.setState({ isShown: true });
-    // set modal position
+    this.setState({ isEdit: true, isShown: false });
+
     const blockCoords = this.getCoords(el);
     this.setModalPosition(blockCoords, modal);
   };
@@ -78,6 +78,9 @@ export default class CalendarView extends Component {
     this.setState({ isShown: false });
   };
 
+  handleCloseEdit = () => {
+    this.setState({ isEdit: false });
+  };
   /*
     Render Modal in center of block
   */
@@ -93,13 +96,13 @@ export default class CalendarView extends Component {
   getCoords = elem => {
     const box = elem.getBoundingClientRect();
     return {
-      top: box.top + pageYOffset + elem.offsetHeight / 2,
+      top: box.bottom + pageYOffset + 10,
       left: box.left + pageXOffset - elem.offsetWidth / 2,
     };
   };
 
   render() {
-    const { isDraggable, dateEvent, isShown } = this.state;
+    const { isDraggable, dateEvent, isShown, isEdit } = this.state;
     const { events } = this.props;
 
     return (
@@ -117,32 +120,10 @@ export default class CalendarView extends Component {
           eventStartEditable={isDraggable}
           eventResizeStart={this.handleEditEvent}
         />
-        <TransitionGroup>
-          {isShown && (
-            <CSSTransition
-              in={isShown}
-              timeout={200}
-              classNames={PopTransition}
-            >
-              <Modal
-                date={dateEvent}
-                onClose={this.handleClose}
-                innerRef={modal}
-              />
-            </CSSTransition>
-          )}
-        </TransitionGroup>
-        {/* <TransitionGroup>
-          {isEdit && (
-            <CSSTransition
-              in={isShown}
-              timeout={200}
-              classNames={PopTransition}
-            >
-              <Modal onClose={this.handleClose} innerRef={modal} />
-            </CSSTransition>
-          )}
-        </TransitionGroup> */}
+        {isShown && (
+          <Modal date={dateEvent} onClose={this.handleClose} innerRef={modal} />
+        )}
+        {isEdit && <Modal onClose={this.handleCloseEdit} innerRef={modal} />}
       </>
     );
   }

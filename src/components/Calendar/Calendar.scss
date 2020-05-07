@@ -56,14 +56,13 @@
   cursor: pointer;
 }
 
-.fc-event-container:hover {
-  .fc-day-grid-event {
-    background: #6daceb;
-  }
+.fc-event-container {
   .fc-event {
-    border-color: #6daceb;
+    transition: all 0.2s linear;
   }
-  .fc-content:hover {
-    background: #4390de;
+
+  .fc-event:hover {
+    background-color: #6daceb;
+    border-color: #6daceb;
   }
 }
