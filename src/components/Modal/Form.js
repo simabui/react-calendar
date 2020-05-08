@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import { TextField, Button } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import CheckIcon from '@material-ui/icons/Check';
+import ToggleButton from '@material-ui/lab/ToggleButton';
 import './Modal.scss';
 
-const Form = ({ onClose, onChange, onDelete, state, error }) => {
+const Form = ({ onClose, onChange, onToggle, onDelete, state, error }) => {
   return (
     <div className="modal">
       <TextField
@@ -36,6 +37,7 @@ const Form = ({ onClose, onChange, onDelete, state, error }) => {
           shrink: true,
         }}
         onChange={onChange}
+        disabled={state.allDay}
       />
       <TextField
         id="notes"
@@ -43,6 +45,19 @@ const Form = ({ onClose, onChange, onDelete, state, error }) => {
         onChange={onChange}
         value={state.notes}
       />
+      <label htmlFor="allDay" className="modal__toggle">
+        all Day
+        <ToggleButton
+          selected={state.allDay}
+          value="check"
+          id="allDay"
+          size="small"
+          onChange={onToggle}
+        >
+          <CheckIcon />
+        </ToggleButton>
+      </label>
+
       <div className="modal__buttons">
         <Button
           color="secondary"
@@ -74,6 +89,7 @@ const Form = ({ onClose, onChange, onDelete, state, error }) => {
 Form.propTypes = {
   onClose: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onToggle: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
   state: PropTypes.shape({
@@ -81,6 +97,7 @@ Form.propTypes = {
     error: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
+    allDay: PropTypes.bool.isRequired,
     notes: PropTypes.string,
     id: PropTypes.string,
   }).isRequired,

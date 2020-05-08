@@ -43,6 +43,7 @@ const defaultData = {
   hours: '',
   title: '',
   notes: '',
+  allDay: false,
 };
 
 export function eventToEditReducer(state = defaultData, action) {

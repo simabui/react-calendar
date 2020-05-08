@@ -22,6 +22,7 @@ export default class CalendarView extends Component {
     isShown: false,
     isEdit: false,
     isDraggable: true,
+    nowIndicator: true,
     dateEvent: '',
   };
 
@@ -102,7 +103,13 @@ export default class CalendarView extends Component {
   };
 
   render() {
-    const { isDraggable, dateEvent, isShown, isEdit } = this.state;
+    const {
+      isDraggable,
+      dateEvent,
+      isShown,
+      isEdit,
+      nowIndicator,
+    } = this.state;
     const { events } = this.props;
 
     return (
@@ -119,6 +126,7 @@ export default class CalendarView extends Component {
           eventDrop={this.handleDragEvent}
           eventStartEditable={isDraggable}
           eventResizeStart={this.handleEditEvent}
+          nowIndicator={nowIndicator}
         />
         {isShown && (
           <Modal date={dateEvent} onClose={this.handleClose} innerRef={modal} />

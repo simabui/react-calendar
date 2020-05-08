@@ -22,13 +22,7 @@ class Modal extends Component {
     editEvent: PropTypes.func.isRequired,
     deleteEvent: PropTypes.func.isRequired,
     innerRef: PropTypes.shape({}).isRequired,
-    event: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-      hours: PropTypes.string.isRequired,
-      notes: PropTypes.string,
-      id: PropTypes.string,
-    }).isRequired,
+    event: PropTypes.shape({}).isRequired,
   };
 
   static defaultProps = {
@@ -43,13 +37,7 @@ class Modal extends Component {
       this.setState({ date });
     } else if (event) {
       // if choosed edit event
-      this.setState({
-        title: event.title,
-        date: event.date,
-        time: event.hours,
-        notes: event.notes,
-        id: event.id,
-      });
+      this.setState({ ...event });
     }
   }
 
@@ -61,13 +49,7 @@ class Modal extends Component {
 
     // update edit modal
     if (prevProps.event !== event) {
-      this.setState({
-        title: event.title,
-        date: event.date,
-        time: event.hours,
-        notes: event.notes,
-        id: event.id,
-      });
+      this.setState({ ...event });
     }
   }
 
@@ -77,6 +59,14 @@ class Modal extends Component {
 
   handleChange = ({ target }) => {
     this.setState({ [target.id]: target.value });
+  };
+
+  hangleToggle = () => {
+    this.setState(state => {
+      return {
+        allDay: !state.allDay,
+      };
+    });
   };
 
   handleKeyPress = e => {
@@ -125,6 +115,7 @@ class Modal extends Component {
             state={this.state}
             onClose={onClose}
             onChange={this.handleChange}
+            onToggle={this.hangleToggle}
             error={error}
             onDelete={this.handleDelete}
           />

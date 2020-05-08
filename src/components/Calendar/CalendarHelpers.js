@@ -43,6 +43,7 @@ export function getEventData({
   title,
   extendedProps: { notes },
   id,
+  allDay,
 }) {
   const month = formatMonth(time.getMonth());
   const day = formatDay(time.getDate());
@@ -61,5 +62,6 @@ export function getEventData({
     notes: formattedNotes,
     title,
     id,
+    allDay,
   };
 }

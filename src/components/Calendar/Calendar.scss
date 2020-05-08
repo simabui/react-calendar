@@ -4,14 +4,38 @@
 
 .fc-head-container,
 .fc-widget-header {
-  background-color: #eaf0f4;
+  background-color: #f5f6fa;
   color: #a3a6b4;
   font-weight: 700;
 }
+
+.fc-unthemed th,
+.fc-unthemed td,
+.fc-unthemed thead,
+.fc-unthemed tbody,
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-row,
+.fc-unthemed .fc-content,
+.fc-unthemed .fc-popover,
+.fc-unthemed .fc-list-view,
+.fc-unthemed .fc-list-heading td {
+  border-color: #eaf0f4;
+}
+.fc-axis,
+.fc-widget-header {
+  border: none;
+}
+
+.fc-day-header,
+.fc-widget-header,
+.fc-fri,
+.fc-today {
+  border: none;
+}
+
 .fc-day-header,
 .fc-widget-header {
   padding: 10px 0px;
-  border-style: hidden !important;
 }
 .fc-center {
   h2 {
@@ -65,4 +89,12 @@
     background-color: #6daceb;
     border-color: #6daceb;
   }
+}
+
+.fc-now-indicator {
+  border-color: #3b86ff;
+}
+
+.fc-unthemed td.fc-today {
+  background: #e8ebf5;
 }
