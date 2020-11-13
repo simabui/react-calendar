@@ -7,6 +7,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import Modal from '../Modal/ModalContainer';
+import Button from '../Button/Button';
+
 import './Calendar.scss';
 import {
   getter,
@@ -87,8 +89,14 @@ export default class CalendarView extends Component {
   */
 
   setModalPosition = (coords, el) => {
-    el.current.style.left = `${coords.left}px`;
-    el.current.style.top = `${coords.top}px`;
+    if (window.matchMedia('(min-width: 560px)').matches) {
+      el.current.style.left = `${coords.left}px`;
+      el.current.style.top = `${coords.top}px`;
+    }
+  };
+
+  handleOpenModal = () => {
+    this.setState({ isShown: true });
   };
 
   /*
@@ -128,6 +136,7 @@ export default class CalendarView extends Component {
           eventResizeStart={this.handleEditEvent}
           nowIndicator={nowIndicator}
         />
+        <Button onClick={this.handleOpenModal} />
         {isShown && (
           <Modal date={dateEvent} onClose={this.handleClose} innerRef={modal} />
         )}

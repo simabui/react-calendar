@@ -1,6 +1,7 @@
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
 @import '~@fullcalendar/timegrid/main.css';
+@import '../../styles/smart-grid.scss';
 
 .fc-head-container,
 .fc-widget-header {
@@ -97,4 +98,61 @@
 
 .fc-unthemed td.fc-today {
   background: #e8ebf5;
+}
+
+.fc-toolbar {
+  @include xs(flex-direction, column-reverse);
+
+  & > *:not(:first-child) {
+    @include xs(margin-bottom, 10px);
+  }
+}
+
+.fc-center {
+  @include xs(order, 3);
+}
+
+.fc-view-container {
+  @include xs(font-size, 13px);
+}
+
+.fc-content {
+  @include xs(font-size, 10px);
+}
+
+.fc-dayGridMonth-view {
+  .fc-time {
+    @include xs(display, none);
+  }
+}
+
+.fc-timeGridWeek-view,
+.fc-timeGrid-view {
+  .fc-head {
+    .fc-day-header {
+      @include xs(font-size, 12px);
+    }
+  }
+}
+
+.fc-axis,
+.fc-time,
+.fc-widget-content {
+  @include xs-block() {
+    text-align: center;
+  }
+}
+
+.fc-scroller,
+.fc-day-grid-container {
+  @include xs(height, auto !important);
+}
+
+.fc-timeGridWeek-view,
+.fc-timeGrid-view {
+  .fc-scroller,
+  .fc-day-grid-container {
+    @include xs(height, 300px !important);
+    @include xs(overflow, scroll !important);
+  }
 }

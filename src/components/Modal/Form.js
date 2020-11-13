@@ -9,56 +9,61 @@ import './Modal.scss';
 const Form = ({ onClose, onChange, onToggle, onDelete, state, error }) => {
   return (
     <div className="modal">
-      <TextField
-        id="title"
-        label="Event name"
-        required
-        onChange={onChange}
-        value={state.title}
-        helperText={error}
-        error={state.title.length > 10 && true}
-      />
-      <TextField
-        id="date"
-        label="Event date"
-        type="date"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={onChange}
-        value={state.date}
-      />
-      <TextField
-        id="time"
-        label="Event time"
-        type="time"
-        value={state.time}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        onChange={onChange}
-        disabled={state.allDay}
-      />
-      <TextField
-        id="notes"
-        label="Notes"
-        onChange={onChange}
-        value={state.notes}
-      />
-      <label htmlFor="allDay" className="modal__toggle">
-        all Day
-        <ToggleButton
-          selected={state.allDay}
-          value="check"
-          id="allDay"
-          size="small"
-          onChange={onToggle}
-        >
-          <CheckIcon />
-        </ToggleButton>
-      </label>
+      <div className="modal__input">
+        <TextField
+          id="title"
+          label="Event name"
+          required
+          onChange={onChange}
+          value={state.title}
+          helperText={error}
+          error={state.title.length > 10 && true}
+        />
+        <TextField
+          id="date"
+          label="Event date"
+          type="date"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={onChange}
+          value={state.date}
+        />
+        <TextField
+          id="time"
+          label="Event time"
+          type="time"
+          value={state.time}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          onChange={onChange}
+          disabled={state.allDay}
+        />
+        <TextField
+          id="notes"
+          label="Notes"
+          onChange={onChange}
+          value={state.notes}
+        />
+        <label htmlFor="allDay" className="modal__toggle">
+          all Day
+          <ToggleButton
+            selected={state.allDay}
+            value="check"
+            id="allDay"
+            size="small"
+            onChange={onToggle}
+          >
+            <CheckIcon />
+          </ToggleButton>
+        </label>
+      </div>
 
       <div className="modal__buttons">
+        <Button color="primary" type="submit" variant="contained" size="small">
+          {state.id ? 'Edit' : 'Save'}
+        </Button>
         <Button
           color="secondary"
           onClick={onClose}
@@ -77,9 +82,6 @@ const Form = ({ onClose, onChange, onToggle, onDelete, state, error }) => {
             Delete
           </Button>
         )}
-        <Button color="primary" type="submit" variant="contained" size="small">
-          {state.id ? 'Edit' : 'Save'}
-        </Button>
       </div>
       <HighlightOffIcon className="modal__close" onClick={onClose} />
     </div>

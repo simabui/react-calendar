@@ -76,6 +76,18 @@ class Modal extends Component {
     onClose();
   };
 
+  handleOverlayClick = e => {
+    const { innerRef } = this.props;
+    const { current } = innerRef;
+
+    if (current && e.target !== current) {
+      return;
+    }
+    // call parent function
+    const { onClose } = this.props;
+    onClose();
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const { title, notes, time, date, allDay, id } = this.state;
@@ -109,7 +121,11 @@ class Modal extends Component {
     const { onClose, innerRef } = this.props;
     const { error } = this.state;
     return (
-      <div className="form-modal" ref={innerRef}>
+      <div
+        className="form-modal"
+        ref={innerRef}
+        onClick={this.handleOverlayClick}
+      >
         <form onSubmit={this.handleSubmit}>
           <Form
             state={this.state}

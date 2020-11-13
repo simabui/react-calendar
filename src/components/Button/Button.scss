@@ -1,0 +1,8 @@
+@import '../../styles/smart-grid.scss';
+
+.button__xs {
+  display: none;
+  @include xs(display, block);
+  text-align: center;
+  margin-top: 10px;
+}

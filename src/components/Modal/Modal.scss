@@ -1,21 +1,46 @@
+@import '../../styles/smart-grid.scss';
+
 .form-modal {
   position: absolute;
   z-index: 999;
+  @include xs-block() {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  &:before {
+    @include xs-block() {
+    }
+  }
 }
 .modal {
   display: block;
   width: 220px;
+  @include sm(width, 150px);
   height: auto;
   border: 1px solid #a7a6a6;
   border-radius: 10px;
   background-color: #fff;
   padding: 22px 20px;
+  @include sm(padding, 13px 10px);
   color: #d6d6d6;
   position: relative;
 
   &__buttons {
     display: flex;
     justify-content: space-between;
+    @include sm(flex-direction, column);
+
+    button:not(:first-child) {
+      @include sm(margin-top, 10px);
+    }
   }
   &__toggle {
     color: #000;
@@ -31,6 +56,11 @@
     right: 10px;
     cursor: pointer;
 
+    @include xs-block() {
+      top: -30px;
+      right: 0;
+    }
+
     &:hover {
       fill: #595858;
     }
@@ -39,6 +69,7 @@
   &::before {
     content: '';
     display: block;
+    @include xs(display, none);
     width: 0;
     height: 0;
     background-color: transparent;
